@@ -1,0 +1,28 @@
+.mainWrapper {
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.movieCard {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+  //   background-color: aliceblue;
+  margin: 20px;
+  //   border: 2px solid antiquewhite;
+  img {
+    height: 400px;
+    width: auto;
+  }
+  .title {
+    font-size: 20px;
+    font-weight: 700;
+  }
+  .sub-title {
+    font-size: 20px;
+    font-weight: 500;
+  }
+}

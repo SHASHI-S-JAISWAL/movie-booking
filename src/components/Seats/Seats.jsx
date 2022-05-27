@@ -2,13 +2,13 @@ import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
 import { Alert } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { apiPath } from "../../Constants";
+import { useAuth } from "../../context/AuthContext";
 import "./seats.scss";
 
-const greySeat = "https://i.ibb.co/wwXCpFV/grey-seat.png";
-const blueSeat =
-  "https://i.ibb.co/Km0x9GH/icons8-theatre-seat-80-1-removebg-preview.png";
+const greySeat = "https://cdn-icons-png.flaticon.com/512/302/302240.png";
+const blueSeat = "https://cdn-icons-png.flaticon.com/512/302/302271.png";
 
 export default function Seats() {
   const [selectedSeat, SetSeat] = useState(null);
@@ -16,6 +16,12 @@ export default function Seats() {
   const { movieId } = useParams();
   const [showAlert, SetShowAlert] = useState(false);
 
+  const { currentUser } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!currentUser || !currentUser.email) navigate("/login");
+  }, [currentUser, navigate]);
   const changeSeat = (item) => {
     if (!item.reservationId) SetSeat(item);
   };
@@ -24,10 +30,11 @@ export default function Seats() {
     axios
       .post(
         apiPath +
-          `reservations/reserve-seat?movieId=${movieId}&seatId=${selectedSeat.seatId}`,
+          `reservations/reserve-seat?movieId=${movieId}&seatId=${selectedSeat.seatId}&userId=${currentUser.email}`,
         {
           movieId,
           seatId: selectedSeat.seatId,
+          userId: currentUser.email,
         }
       )
       .then((data) => {
@@ -36,7 +43,6 @@ export default function Seats() {
         SetShowAlert(true);
       });
   };
-  console.log(selectedSeat);
 
   let getData = useCallback(() => {
     axios.get(apiPath + `seats?movieId=${movieId}`).then((data) => {

@@ -1,24 +1,19 @@
+import "bootstrap/dist/css/bootstrap.min.css";
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
-import App from "./App";
-import { Routes, Route, Link } from "react-router-dom";
-import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
-import Home from "./components/Home/Home";
-import Seats from "./components/Seats/Seats";
-import "bootstrap/dist/css/bootstrap.min.css";
+import App from "./App";
+import { AuthProvider } from "./context/AuthContext";
+import "./index.css";
+import reportWebVitals from "./reportWebVitals";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <React.StrictMode>
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="book-seats/:movieId" element={<Seats />} />
-          <Route path="expenses" element={<div />} />
-          <Route path="invoices" element={<div />} />
-        </Routes>
+        <AuthProvider>
+          <App />
+        </AuthProvider>
       </BrowserRouter>
     </React.StrictMode>
   </React.StrictMode>
